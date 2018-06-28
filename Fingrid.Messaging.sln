@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Core", "Fingrid.Messaging.Core\Fingrid.Messaging.Core.csproj", "{E227CCB9-D4A5-4CEB-860D-6C4656165C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Data", "Fingrid.Messaging.Data\Fingrid.Messaging.Data.csproj", "{036440A7-B5FC-4E95-82E4-94FAAE5F80FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Data.Dapper", "Fingrid.Messaging.Data.Dapper\Fingrid.Messaging.Data.Dapper.csproj", "{8182F010-0A69-4181-8702-2BF7AEA13AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Services", "Fingrid.Messaging.Services\Fingrid.Messaging.Services.csproj", "{3C2E01B1-0969-4E99-BA19-F0C6784297C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Data.EventStorage", "Fingrid.Messaging.Data.EventStorage\Fingrid.Messaging.Data.EventStorage.csproj", "{575F066C-D9DF-4FE6-A8F8-68AFB53C0718}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.Processor", "Fingrid.Messaging.Processor\Fingrid.Messaging.Processor.csproj", "{99419EA5-0481-4EBD-ABD1-424101E83EFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingrid.Messaging.WindowsService", "Fingrid.Messaging.WindowsService\Fingrid.Messaging.WindowsService.csproj", "{8148E000-0D81-4AB7-B29B-E98567EBFA24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E227CCB9-D4A5-4CEB-860D-6C4656165C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E227CCB9-D4A5-4CEB-860D-6C4656165C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E227CCB9-D4A5-4CEB-860D-6C4656165C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E227CCB9-D4A5-4CEB-860D-6C4656165C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036440A7-B5FC-4E95-82E4-94FAAE5F80FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036440A7-B5FC-4E95-82E4-94FAAE5F80FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036440A7-B5FC-4E95-82E4-94FAAE5F80FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036440A7-B5FC-4E95-82E4-94FAAE5F80FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8182F010-0A69-4181-8702-2BF7AEA13AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8182F010-0A69-4181-8702-2BF7AEA13AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8182F010-0A69-4181-8702-2BF7AEA13AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8182F010-0A69-4181-8702-2BF7AEA13AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2E01B1-0969-4E99-BA19-F0C6784297C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2E01B1-0969-4E99-BA19-F0C6784297C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2E01B1-0969-4E99-BA19-F0C6784297C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2E01B1-0969-4E99-BA19-F0C6784297C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{575F066C-D9DF-4FE6-A8F8-68AFB53C0718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{575F066C-D9DF-4FE6-A8F8-68AFB53C0718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{575F066C-D9DF-4FE6-A8F8-68AFB53C0718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{575F066C-D9DF-4FE6-A8F8-68AFB53C0718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99419EA5-0481-4EBD-ABD1-424101E83EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99419EA5-0481-4EBD-ABD1-424101E83EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99419EA5-0481-4EBD-ABD1-424101E83EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99419EA5-0481-4EBD-ABD1-424101E83EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8148E000-0D81-4AB7-B29B-E98567EBFA24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8148E000-0D81-4AB7-B29B-E98567EBFA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8148E000-0D81-4AB7-B29B-E98567EBFA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8148E000-0D81-4AB7-B29B-E98567EBFA24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
