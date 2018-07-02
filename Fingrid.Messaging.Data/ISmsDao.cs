@@ -13,5 +13,7 @@ namespace Fingrid.Messaging.Data
         Task<bool> UpdateSmsStatus(Sms sms);
         Task<Sms> GetBySequenceNumber(string sequenceNumber);
         Task<int> UniqueIDExists(string uniqueID);
+        Task<Sms> GetByUniqueID(string uniqueID);
+        Task<Sms> GetByMessageID(string messageID);
     }
 }

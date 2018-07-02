@@ -21,7 +21,7 @@ namespace Fingrid.Messaging.Data.Dapper
                 string insertQuery = $@"INSERT INTO [dbo].{this._tableName}([MfbID],[To],[InstitutionName],[Body],[Status],[StatusMsg],[DateSent],
                                     [ReferenceNo],[NoOfAttempts],[AccountNo],[DateCreated],[IgnoreChargeOnInstitution],[NoOfParts],[UniqueId])
                                         OUTPUT inserted.ID 
-                                        VALUES (@MfbID,@To,@InstitutionName,@Status,@StatusMsg,@StatusMsg,@DateSent,@ReferenceNo,@NoOfAttempts,
+                                        VALUES (@MfbID,@To,@InstitutionName,@Body,@StatusMsg,@StatusMsg,@DateSent,@ReferenceNo,@NoOfAttempts,
                                         @AccountNo,@DateCreated,@IgnoreChargeOnInstitution,@NoOfParts,@UniqueId)";
                 await WithConnection(async c =>
                 {
@@ -30,6 +30,7 @@ namespace Fingrid.Messaging.Data.Dapper
                         MfbID = sms.MfbID,
                         To = sms.To,
                         InstitutionName = sms.InstitutionName,
+                        Body = sms.Body,
                         Status = sms.Status,
                         StatusMsg = sms.StatusMsg,
                         DateSent = DateTime.Now,
@@ -41,7 +42,7 @@ namespace Fingrid.Messaging.Data.Dapper
                         NoOfParts = sms.NoOfParts,
                         UniqueId = sms.UniqueId
                     });
-                    return result.SingleOrDefault();
+                    return sms.ID = result.SingleOrDefault();
                 });
                 return true;
             }
@@ -54,13 +55,18 @@ namespace Fingrid.Messaging.Data.Dapper
 
         public async Task<bool> UpdateSmsStatus(Sms sms)
         {
-            string updateQuery = $@"UPDATE {_tableName} SET StatusMsg = @StatusMsg, Status = @Status, SequenceNumber = @SequenceNumber WHERE ID=@ID";
+            string updateQuery = $@"UPDATE {_tableName} SET StatusMsg = @StatusMsg, Status = @Status, SequenceNumber = @SequenceNumber,
+                                    DeliveryStatus = @DeliveryStatus, MessageID = @MessageID, SMSCMSGID = @SMSCMSGID
+                                    WHERE ID=@ID";
             await WithConnection(async c => {
                 return await c.ExecuteAsync(updateQuery, new
                 {
                     StatusMsg = sms.StatusMsg,
                     Status = sms.Status,
                     SequenceNumber = sms.SequenceNumber,
+                    DeliveryStatus = sms.DeliveryStatus,
+                    SMSCMSGID = sms.SMSCMSGID,
+                    MessageID = sms.MessageID,
                     ID = sms.ID
                 });
             });
@@ -74,7 +80,21 @@ namespace Fingrid.Messaging.Data.Dapper
                 return results;
             });
         }
-        
+        public async Task<Sms> GetByUniqueID(string uniqueID)
+        {
+            return await WithConnection(async c => {
+                var results = await c.QueryFirstOrDefaultAsync<Sms>($"SELECT * FROM {_tableName} where UniqueID = @UniqueID", new { UniqueID = uniqueID });
+                return results;
+            });
+        }
+        public async Task<Sms> GetByMessageID(string messageID)
+        {
+            return await WithConnection(async c => {
+                var results = await c.QueryFirstOrDefaultAsync<Sms>($"SELECT * FROM {_tableName} where MessageID = @MessageID", new { MessageID = messageID });
+                return results;
+            });
+        }
+
         public async Task<int> UniqueIDExists(string uniqueID)
         {
             return await WithConnection(async c => {

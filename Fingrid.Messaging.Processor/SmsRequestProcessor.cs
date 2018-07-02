@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Fingrid.Messaging.Processor
 {
-    
+
     public class SmsRequestProcessor
     {
 
@@ -78,7 +78,6 @@ namespace Fingrid.Messaging.Processor
                         smsService.OnMessageDelivered += DeliveredMessage;
 
                         var isSmsSendSuccessful = await smsService.SendSms(sms);
-                        sms.Status = Core.Enums.MsgStatus.Submitted;
                     }
                     catch (Exception ex)
                     {
@@ -97,17 +96,26 @@ namespace Fingrid.Messaging.Processor
 
         private async Task<bool> DeliveredMessage(IMessageDeliveredEventArgs messageArgs)
         {
-            Sms message = await this.smsDao.GetBySequenceNumber(messageArgs.SequenceNumber.ToString());
-            if (message != null && string.IsNullOrEmpty(messageArgs.SMSCMSGID))
+            Sms message = null;
+            if (messageArgs.HasDeliveryReport)
             {
+                message = await this.smsDao.GetByMessageID(messageArgs.MessageID);//or messageid
+            }
+            else
+            {
+                message = await this.smsDao.GetBySequenceNumber(messageArgs.SequenceNumber.ToString());
+            }
 
-                //message.DELIVERY_STATUS = e.;
-                message.Status = Core.Enums.MsgStatus.Successful;
+            if (message != null)
+            {
+                message.DeliveryStatus = messageArgs.DeliveryStatus;
+                message.Status = messageArgs.Status;
                 message.SMSCMSGID = messageArgs.SMSCMSGID;
-                message.SequenceNumber = Int32.Parse(messageArgs.SequenceNumber.ToString());
+                message.MessageID = messageArgs.MessageID;
+                message.SequenceNumber = messageArgs.SequenceNumber.HasValue ? Int32.Parse(messageArgs.SequenceNumber.ToString()) : (int?)null;
                 await this.smsDao.UpdateSmsStatus(message);
             }
-            return await Task.FromResult(false);
+            return await Task.FromResult(true);
         }
 
     }

@@ -83,7 +83,7 @@ namespace Fingrid.Messaging.Processor.Implementation
             
             smppClientConnection.OnTcpDisconnected += SMSCclientSMPP_OnTcpDisconnected;
             //smppClientConnection.OnSmppMessageReceived += SMSCclientSMPP_OnSmppMessageReceived;
-            //smppClientConnection.OnSmppStatusReportReceived += SMSCclientSMPP_OnSmppStatusReportReceived;
+            smppClientConnection.OnSmppStatusReportReceived += SMSCclientSMPP_OnSmppStatusReportReceived;
             smppClientConnection.OnSmppSubmitResponseAsyncReceived += SMSCclientSMPP_OnSmppSubmitResponseAsyncReceived;
             smppClientConnection.ThrottleRate = 100;
 
@@ -124,16 +124,40 @@ namespace Fingrid.Messaging.Processor.Implementation
         // Status Report (SR) received from SMSC
         private void SMSCclientSMPP_OnSmppSubmitResponseAsyncReceived(object sender, smscc.SMPP.smppSubmitResponseAsyncReceivedEventArgs e)
         {
-            //Logger.Log("[smscc] SubmitResponseAsyncReceivedEvent", 1);
-            //Logger.Log($"[smscc] e.MessageID {e.MessageID}, sequenceNumber - {e.SequenceNumber}", 1);
             MessageDeliveredEventArgs entity = new MessageDeliveredEventArgs()
             {
                 Status = MsgStatus.Submitted,
-                SMSCMSGID = e.MessageID,
+                MessageID = e.MessageID,
                 SequenceNumber = Int32.Parse(e.SequenceNumber.ToString())
             };        
         
             if (this.OnMessageDelivered != null) this.OnMessageDelivered(entity);
+        }
+        // Status Report (SR) received from SMSC
+        private void SMSCclientSMPP_OnSmppStatusReportReceived(object sender,
+          smscc.SMPP.smppStatusReportReceivedEventArgs e)
+        {
+            //Update status report here
+            if (e.CommandStatus == 0)
+            {
+                try
+                {
+                    MessageDeliveredEventArgs entity = new MessageDeliveredEventArgs()
+                    {
+                        DeliveryStatus = e.MessageState == 2 ? "Delivered" : "Failed",
+                        MessageID = e.MessageID,
+                        UniqueID = e.ExtendedParameters,
+                        HasDeliveryReport = true,
+                        Status = e.MessageState == 2 ? MsgStatus.Successful : MsgStatus.Failed
+                    };
+                    if (this.OnMessageDelivered != null) this.OnMessageDelivered(entity);
+                    
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
         }
         //
         // This timer kicks once a while to see if we are still connected. 

@@ -11,8 +11,10 @@ namespace Fingrid.Messaging.Core
     {
         public virtual SmsServiceType SmsServiceType { get; set; }
         public virtual string InstitutionCode { get; set; }
-        public virtual int SequenceNumber { get; set; }
+        public virtual int? SequenceNumber { get; set; }
         public virtual string SMSCMSGID { get; set; }
+        public virtual string DeliveryStatus { get; set; }
+        public virtual string MessageID { get; set; }
         /// <summary>
         /// Represents the institution name
         /// would be the source address that the customer would see

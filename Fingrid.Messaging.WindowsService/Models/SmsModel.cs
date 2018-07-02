@@ -15,6 +15,7 @@ namespace Fingrid.Messaging.WindowsService.Models
         public string AccountNo { get; set; }
         public string InstitutionName { get; set; }
         public string APPName { get; set; }
+        public string InstitutionCode { get; set; }
 
         public SmsRequest ConvertToSmsObject()
         {
@@ -28,7 +29,8 @@ namespace Fingrid.Messaging.WindowsService.Models
                 To = this.PhoneNo,
                 UniqueId = uniqueID,
                 AccountNo = this.AccountNo,
-                InstitutionName = this.InstitutionName
+                InstitutionName = this.InstitutionName,
+                InstitutionCode = this.InstitutionCode
             };
         }
     }
