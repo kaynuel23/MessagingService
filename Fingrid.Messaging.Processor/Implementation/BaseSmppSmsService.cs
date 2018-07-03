@@ -21,12 +21,22 @@ namespace Fingrid.Messaging.Processor.Implementation
             this.SystemID = systemID;
             this.Password = password;
         }
+        public SmppSmsSettings(int timerInt, string ipAddress, int port, string systemID, string password, string notifyUrl)
+        {
+            this.TimerInterval = timerInt;
+            this.IpAddress = ipAddress;
+            this.Port = port;
+            this.SystemID = systemID;
+            this.Password = password;
+            this.NotifyUrl = notifyUrl;
+        }
 
         public int TimerInterval { get; set; }
         public string IpAddress { get; set; }
         public int Port { get; set; }
         public string SystemID { get; set; }
         public string Password { get; set; }
+        public string NotifyUrl { get; set; }
     }
 
     public class DiamondIpIntegratedSmppSmsService : BaseSmppSmsService
