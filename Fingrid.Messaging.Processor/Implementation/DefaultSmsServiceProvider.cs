@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Fingrid.Messaging.Processor.Implementation
 {
-    public class DefaultSmsServiceFactory : ISmsServiceFactory
+    public class DefaultSmsServiceProvider : ISmsServiceProvider
     {
         private readonly Dictionary<SmsServiceType, ISmsService> smsServiceDict;
-        public DefaultSmsServiceFactory(IEnumerable<ISmsService> smsServices)
+        public DefaultSmsServiceProvider(IEnumerable<ISmsService> smsServices)
         {
             if(smsServices == null || smsServices.Count() == 0)
             {
@@ -33,10 +33,10 @@ namespace Fingrid.Messaging.Processor.Implementation
 
         public ISmsService GetService(string institutionCode)
         {
-            SmsServiceType serviceType = SmsServiceType.SmppIpIntegrated;
+            SmsServiceType serviceType = SmsServiceType.AccessIPIntegrated;
             if(institutionCode == "0383833")  //TODO: International instituion
             {
-                serviceType = SmsServiceType.SmppInfobip;
+                serviceType = SmsServiceType.InfoBip;
             }
 
             ISmsService result = null;

@@ -8,47 +8,10 @@ using Fingrid.Messaging.Core;
 using Fingrid.Messaging.Core.Enums;
 using smscc;
 using Fingrid.Messaging.Data;
+using Newtonsoft.Json;
 
 namespace Fingrid.Messaging.Processor.Implementation
-{
-    public class SmppSmsSettings
-    {
-        public SmppSmsSettings(int timerInt, string ipAddress, int port, string systemID, string password)
-        {
-            this.TimerInterval = timerInt;
-            this.IpAddress = ipAddress;
-            this.Port = port;
-            this.SystemID = systemID;
-            this.Password = password;
-        }
-        public SmppSmsSettings(int timerInt, string ipAddress, int port, string systemID, string password, string notifyUrl)
-        {
-            this.TimerInterval = timerInt;
-            this.IpAddress = ipAddress;
-            this.Port = port;
-            this.SystemID = systemID;
-            this.Password = password;
-            this.NotifyUrl = notifyUrl;
-        }
-
-        public int TimerInterval { get; set; }
-        public string IpAddress { get; set; }
-        public int Port { get; set; }
-        public string SystemID { get; set; }
-        public string Password { get; set; }
-        public string NotifyUrl { get; set; }
-    }
-
-    public class DiamondIpIntegratedSmppSmsService : BaseSmppSmsService
-    {
-
-        public DiamondIpIntegratedSmppSmsService(SmppSmsSettings smppSmsSettings): base(smppSmsSettings)
-        {
-        }
-
-        public override SmsServiceType SmsServiceType { get { return SmsServiceType.SmppIpIntegrated; } }
-    }
-
+{    
     public abstract class BaseSmppSmsService : ISmsService, IDisposable
     {
         public abstract SmsServiceType SmsServiceType { get; }
@@ -61,11 +24,9 @@ namespace Fingrid.Messaging.Processor.Implementation
         private System.Timers.Timer TimerReconnect;
         private bool bServiceReady = false;
 
-        public BaseSmppSmsService(SmppSmsSettings smppSmsSettings)//, ISmsDao smsDao)
+        public BaseSmppSmsService(ISmppSmsSettingsProvider provider)//, ISmsDao smsDao)
         {
-            this.smppSmsSettings = smppSmsSettings;
-            //this.smsDao = smsDao;
-
+            this.smppSmsSettings = provider.GetSetting(this.SmsServiceType);
             this.TimerReconnect = new System.Timers.Timer();
 
             // Create 1st instance of the SMPP component

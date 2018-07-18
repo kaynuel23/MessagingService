@@ -30,7 +30,7 @@ namespace Fingrid.Messaging.WindowsService
             catch (Exception ex)
             {
 
-                System.IO.File.WriteAllText(@"C:\Logs\Fingrid.Messaging\ErrorFile.txt", $"StartUp Error - {ex.Message}. {ex.StackTrace}");
+                //System.IO.File.WriteAllText(@"C:\Logs\Fingrid.Messaging\ErrorFile.txt", $"StartUp Error - {ex.Message}. {ex.StackTrace}");
                 
             }
         }

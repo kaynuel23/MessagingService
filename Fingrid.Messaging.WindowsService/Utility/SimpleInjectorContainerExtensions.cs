@@ -20,13 +20,14 @@ namespace Fingrid.Messaging.WindowsService.Utility
             string eventSourceConnectionString = System.Configuration.ConfigurationManager.AppSettings["Fingrid.Messaging.EventSource.ConnectionString"];
             string eventSourceUsername = System.Configuration.ConfigurationManager.AppSettings["Fingrid.Messaging.EventSource.Username"];
             string eventSourcePassword = System.Configuration.ConfigurationManager.AppSettings["Fingrid.Messaging.EventSource.Password"];
+            string smppSettingsFile = System.Configuration.ConfigurationManager.AppSettings["Fingrid.Messaging.SmppSettings.FileLocation"];
 
             container.Register<Data.EventStorage.IEventStoreDataFactory>(() => new Data.EventStorage.EventStoreDataFactory(eventSourceConnectionString, eventSourceUsername, eventSourcePassword), (Lifestyle.Singleton));
 
 
             //Register all DAOs. 
-            container.RegisterSpecial(typeof(Data.Dapper.SmsDapperDao).Assembly, "dao");
-            container.RegisterSpecial(typeof(Data.EventStorage.SmsRequestEventStoreDao).Assembly, "dao");
+            container.RegisterSpecial(typeof(Data.Dapper.SmsDapperDao).Assembly, "dao", Lifestyle.Transient);
+            container.RegisterSpecial(typeof(Data.EventStorage.SmsRequestEventStoreDao).Assembly, "dao", Lifestyle.Transient);
 
             //Register the caches. They'll use decorator pattern to initially get the real data.
             //container.Register<ICacheStorage, SystemRuntimeCacheStorage>();
@@ -46,20 +47,23 @@ namespace Fingrid.Messaging.WindowsService.Utility
             //container.RegisterSpecialDecorator(typeof(Data.MemoryStore.InstitutionCacheDao).Assembly, "dao");
 
             //Register all Services. 
-            container.RegisterSpecial(typeof(Services.Implementation.SmsService).Assembly, "service");
+            container.RegisterSpecial(typeof(Services.Implementation.SmsService).Assembly, "service", Lifestyle.Transient);
+
             container.Register<Processor.SmsRequestProcessor>();
 
-            container.Register(() => new SmppSmsSettings(1, "159.253.213.194", 2345, "appzacb", "acb123"), (Lifestyle.Singleton));
+            //container.Register(() => new SmppSmsSettings(1, "159.253.213.194", 2345, "appzacb", "acb123", ""), (Lifestyle.Singleton));
             //TODO: Override Default Collection Behaviour
             //container.Collection.Register(typeof(ISmsService), new[] { typeof(ISmsService).Assembly });
+            container.RegisterSpecial(typeof(Processor.Implementation.DefaultSmsServiceProvider).Assembly, "provider", Lifestyle.Singleton);
             var smsServiceTypes = container.GetTypesToRegister(typeof(ISmsService), new[] { typeof(ISmsService).Assembly });
             var smsServiceRegistrations = (from type in smsServiceTypes
                 select Lifestyle.Singleton.CreateRegistration(type, container)).ToArray(); // This call is needed to prevent double enumeration!!
             container.Collection.Register<ISmsService>(smsServiceRegistrations);
-            container.Register<ISmsServiceFactory, DefaultSmsServiceFactory>();
 
             //Register all Processor. 
             //container.RegisterSpecialProcessor(typeof(Processor.Processors.LoanCreditor).Assembly);
+            container.Register<Processor.Interfaces.ISmppSmsSettingsFileReader>(() => new Processor.Implementation.SmppSmsSettingsFileReader(smppSettingsFile), (Lifestyle.Singleton));
+            //container.RegisterSpecial(typeof(Processor.Implementation.DefaultSmsServiceProvider).Assembly, "reader", Lifestyle.Singleton);
 
             //Register from Recover.Processor
             //container.RegisterCollection<IThirdPartyEnquiryAgent>(new[] { new Processor.BankEnquiryAgents.NibssEnquiryAgent(), new Processor.BankEnquiryAgents.NibssEnquiryAgent() });
@@ -89,7 +93,7 @@ namespace Fingrid.Messaging.WindowsService.Utility
         //}
 
 
-        public static void RegisterSpecial(this Container container, System.Reflection.Assembly repositoryAssembly, string endString)
+        public static void RegisterSpecial(this Container container, System.Reflection.Assembly repositoryAssembly, string endString, Lifestyle lifestyle)
         {
             //var repositoryAssembly = type.Assembly;
             //try
@@ -102,7 +106,7 @@ namespace Fingrid.Messaging.WindowsService.Utility
                         select new { Service = type.GetInterfaces().Where(i => i.Name.ToLower().EndsWith(endString)).FirstOrDefault(), Implementation = type };
                 foreach (var reg in registrations)
                 {
-                    container.Register(reg.Service, reg.Implementation, Lifestyle.Transient);
+                    container.Register(reg.Service, reg.Implementation, lifestyle);
                 }
             //}
             //catch (Exception ex)

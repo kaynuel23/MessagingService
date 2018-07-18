@@ -1,0 +1,74 @@
+﻿[
+  {
+    "Name": "DiamondIPIntegrated",
+    "TimerInterval": 1,
+    "IpAddress": "159.253.213.194",
+    "Port": 2345,
+    "SystemID": "",
+    "Password": "",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "SterlingIPIntegrated",
+    "TimerInterval": 1,
+    "IpAddress": "159.253.213.194",
+    "Port": 2345,
+    "SystemID": "",
+    "Password": "",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "AccessIPIntegrated",
+    "TimerInterval": 1,
+    "IpAddress": "159.253.213.194",
+    "Port": 2345,
+    "SystemID": "appzacb",
+    "Password": "acb123",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "BOIIPIntegrated",
+    "TimerInterval": 1,
+    "IpAddress": "159.253.213.194",
+    "Port": 2345,
+    "SystemID": "",
+    "Password": "",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "MFBIPIntegrated",
+    "TimerInterval": 1,
+    "IpAddress": "159.253.213.194",
+    "Port": 2345,
+    "SystemID": "",
+    "Password": "",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "Vanso",
+    "TimerInterval": 1,
+    "IpAddress": "http://sxmp.gw1.vanso.com",
+    "Port": 80,
+    "SystemID": "NG.900.4001",
+    "Password": "rtrCj9UL",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "MainstreetVanso",
+    "TimerInterval": 1,
+    "IpAddress": "http://sxmp.gw1.vanso.com",
+    "Port": 80,
+    "SystemID": "mainstreetmfb",
+    "Password": "BI5nbMd",
+    "NotifyUrl": ""
+  },
+  {
+    "Name": "InfoBip",
+    "TimerInterval": 1,
+    "IpAddress": "http://api.infobip.com/sms/1/text/advanced",
+    "Port": 80,
+    "SystemID": "appz1sms",
+    "Password": "2402PTRj8",
+    "NotifyUrl": "http://173.1.217.248/bankonewebapi/api/smsconfirmation/infobip"
+  }
+]

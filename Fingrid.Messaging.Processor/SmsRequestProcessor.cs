@@ -19,11 +19,11 @@ namespace Fingrid.Messaging.Processor
         private const string STREAM = "fingrid.messaging.smsrequest";
         private const string GROUP = "fingrid.messaging.smsrequest.group";
         private readonly ISmsDao smsDao;
-        private readonly ISmsServiceFactory smsServiceFactory;
+        private readonly ISmsServiceProvider smsServiceFactory;
         private readonly IEventStoreDataFactory dataFactory;
         private readonly EventStore.ClientAPI.SystemData.UserCredentials userCred = null;
 
-        public SmsRequestProcessor(IEventStoreDataFactory dataFactory, ISmsDao smsDao, ISmsServiceFactory smsServiceFactory)
+        public SmsRequestProcessor(IEventStoreDataFactory dataFactory, ISmsDao smsDao, ISmsServiceProvider smsServiceFactory)
         {
             if (dataFactory == null)
                 throw new ArgumentNullException("dataFactory");

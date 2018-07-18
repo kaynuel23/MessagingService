@@ -15,13 +15,12 @@ namespace Fingrid.Messaging.Processor.Implementation
 {
     public abstract class BaseInfoBipSmsService : ISmsService
     {
-        public SmsServiceType SmsServiceType => SmsServiceType.SmppInfobip;
-
+        public SmsServiceType SmsServiceType => SmsServiceType.InfoBip;
         public Func<IMessageDeliveredEventArgs, Task<bool>> OnMessageDelivered { get; set; }
         private readonly SmppSmsSettings smppSmsSettings;
-        public BaseInfoBipSmsService(SmppSmsSettings smppSmsSettings)
+        public BaseInfoBipSmsService(ISmppSmsSettingsProvider provider)
         {
-            this.smppSmsSettings = smppSmsSettings;
+            this.smppSmsSettings = provider.GetSetting(this.SmsServiceType);
         }
         public async Task<bool> SendSms(Sms sms)
         {

@@ -10,23 +10,23 @@ using Vanso.SXMP;
 
 namespace Fingrid.Messaging.Processor.Implementation
 {
-    public class MainstreetVansoSmsService : BaseSmppSmsService
-    {
-
-        public MainstreetVansoSmsService(SmppSmsSettings smppSmsSettings) : base(smppSmsSettings)
+    public class MainstreetVansoSmsService : BaseVansoSmsService
+    {        
+        public MainstreetVansoSmsService(ISmppSmsSettingsProvider smppSmsSettingsProvider) : base(smppSmsSettingsProvider)
         {
         }
 
-        public override SmsServiceType SmsServiceType { get { return SmsServiceType.SmppVanso; } }
+        public override SmsServiceType SmsServiceType { get { return SmsServiceType.MainstreetVanso; } }
     }
+
     public abstract class BaseVansoSmsService : ISmsService
     {
-        public abstract SmsServiceType SmsServiceType { get; }
+        public virtual SmsServiceType SmsServiceType { get { return SmsServiceType.Vanso; } }
         public Func<IMessageDeliveredEventArgs, Task<bool>> OnMessageDelivered { get; set; }
         private readonly SmppSmsSettings smppSmsSettings;
-        public BaseVansoSmsService(SmppSmsSettings smppSmsSettings)
+        public BaseVansoSmsService(ISmppSmsSettingsProvider provider)
         {
-            this.smppSmsSettings = smppSmsSettings;
+            this.smppSmsSettings = provider.GetSetting(this.SmsServiceType);
         }
 
         public async Task<bool> SendSms(Sms sms)

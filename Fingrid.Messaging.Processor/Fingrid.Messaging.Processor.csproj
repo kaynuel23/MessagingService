@@ -57,10 +57,16 @@
   <ItemGroup>
     <Compile Include="Implementation\BaseInfoBipSmsService.cs" />
     <Compile Include="Implementation\BaseVansoSmsService.cs" />
-    <Compile Include="Implementation\DefaultSmsServiceFactory.cs" />
+    <Compile Include="Implementation\SmppSmsSettings.cs" />
+    <Compile Include="Implementation\SmppSmsSettingsFileReader.cs" />
+    <Compile Include="Implementation\SmppSmsSettingsProvider.cs" />
+    <Compile Include="Implementation\DefaultSmsServiceProvider.cs" />
     <Compile Include="Implementation\BaseSmppSmsService.cs" />
+    <Compile Include="Implementation\IpIntegratedSmppSmsService.cs" />
+    <Compile Include="Interfaces\ISmppSmsSettingsFileReader.cs" />
     <Compile Include="Interfaces\ISmsService.cs" />
     <Compile Include="Interfaces\ISmsServiceFactory.cs" />
+    <Compile Include="Interfaces\ISmppSmsSettingsProvider.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsRequestProcessor.cs" />

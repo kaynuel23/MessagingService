@@ -8,8 +8,13 @@ namespace Fingrid.Messaging.Core.Enums
 {
     public enum SmsServiceType
     {
-        SmppIpIntegrated = 0,
-        SmppInfobip,
-        SmppVanso
+        DiamondIPIntegrated = 0,
+        SterlingIPIntegrated,
+        AccessIPIntegrated,
+        BOIIPIntegrated,
+        MFBIPIntegrated,
+        Vanso,
+        MainstreetVanso,
+        InfoBip
     }
 }
