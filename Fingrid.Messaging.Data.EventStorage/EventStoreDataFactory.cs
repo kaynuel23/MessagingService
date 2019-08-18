@@ -19,7 +19,7 @@ namespace Fingrid.Messaging.Data.EventStorage
 
             // Don't forget to tell the connection to connect!
             connection.ConnectAsync().Wait();
-
+             
             //Should be run ONLY once actually.
             try
             {
